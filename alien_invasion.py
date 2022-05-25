@@ -1,7 +1,9 @@
 import sys
 import pygame
+from time import sleep
 
 from Settings import Settings
+from GameStats import GameStats
 from modules.ship import Ship
 from modules.bullet import Bullet
 from modules.alien import Alien
@@ -14,6 +16,7 @@ class AlienInvasion:
         """Initialize the game, and create game ressources"""
         pygame.init()
         self.settings = Settings()
+        self.stats = GameStats(self)
         self.screen = pygame.display.set_mode(
             size=(0, 0), flags=pygame.FULLSCREEN
         )
@@ -43,6 +46,11 @@ class AlienInvasion:
         """Check if the fleet is at an edge, then update the positions of all aliens in the fleet"""
         self._check_fleet_edges()
         self.aliens.update()
+        # Look for alien-ship collisions.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+        # Look for aliens hitting the bottom of the screen.
+        self._check_alien_bottom()
 
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
@@ -135,6 +143,28 @@ class AlienInvasion:
             for alien_number in range(number_alien_x):
                 # Create an alien and place it in the row.
                 self._create_alien(alien_number, row)
+
+    def _ship_hit(self):
+        """Respond to the ship being hit by an alien"""
+        # Decrement the number of ship left
+        self.stats.ships_left -= 1
+        # Get rid of any alien or bullet left.
+        self.aliens.empty()
+        self.bullets.empty()
+        # Create a new fleet and center the ship
+        self._create_fleet()
+        self.ship.center_ship()
+        # Pause.
+        sleep(1.0)
+
+    def _check_alien_bottom(self):
+        """Check if any aliens have reached the bottom of the screen."""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # Treat this the same as if the ship got hit.
+                self._ship_hit()
+                break
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
