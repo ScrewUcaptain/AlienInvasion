@@ -22,6 +22,7 @@ class Settings:
         # Alien settings
         self.alien_speed = 0.80
         self.fleet_drop_speed = 10
+
         # fleet direction of 1 represents right; -1 represents left.
         self.fleet_direction = 1  # don't change this
 
@@ -35,6 +36,9 @@ class Settings:
         self.ship_speed = 1.5
         self.bullet_speed = 3.0
         self.alien_speed = 0.8
+
+        # Scoring
+        self.alien_points = 10
 
         # fleet_direction of 1 represents right to left and -1 represent left to right.
         self.fleet_direction = 1
