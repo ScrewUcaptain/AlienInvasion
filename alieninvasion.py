@@ -4,6 +4,7 @@ from time import sleep
 
 from Settings import Settings
 from GameStats import GameStats
+from scoreboard import Scoreboard
 from modules.button import Button
 from modules.ship import Ship
 from modules.bullet import Bullet
@@ -23,6 +24,7 @@ class AlienInvasion:
         )
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
+        self.scoreboard = Scoreboard(self)
         # Name of the window
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
@@ -205,6 +207,7 @@ class AlienInvasion:
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen"""
         self.screen.fill(self.settings.bg_color)
+        self.scoreboard.show_score()
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
