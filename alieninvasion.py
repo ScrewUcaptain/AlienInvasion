@@ -86,6 +86,7 @@ class AlienInvasion:
             # Reset game settings.
             self.settings.initialize_dynamic_settings()
             self.stats.game_active = True
+            self.scoreboard.prep_score()
 
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()
@@ -127,8 +128,9 @@ class AlienInvasion:
             self.bullets, self.aliens, True, True)  # Les deux True value définissent si les sprites doivent etre détruit ou non
 
         if collisions:
-            self.stats.score += self.settings.alien_points
-            self.scoreboard.prep_score()
+            for alien in collisions.values():
+                self.stats.score += self.settings.alien_points * len(alien)
+                self.scoreboard.prep_score()
 
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
