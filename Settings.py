@@ -14,7 +14,7 @@ class Settings:
 
         # setting bullets
         self.bullet_speed = 1.8
-        self.bullet_width = 1000
+        self.bullet_width = 10
         self.bullet_height = 25
         self.bullet_color = (212, 10, 175)
         self.bullets_allowed = 5
@@ -36,7 +36,7 @@ class Settings:
         """Initialize settings that change through the game."""
         self.ship_speed = 1.5
         self.bullet_speed = 3.0
-        self.alien_speed = 0.8
+        self.alien_speed = 0.80
 
         # Scoring
         self.alien_points = 10

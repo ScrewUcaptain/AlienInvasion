@@ -52,21 +52,26 @@ class Scoreboard:
         
     def prep_ships(self):
         """Show how many ships are left."""
-        self.ships = pygame.sprite.Group()
-        for ship_number in range(self.stats.ships_left):
-            ship = Ship(self.ai_game)
-            # ship.rect.width = int(ship.rect.width) / 2
-            # ship.rect.height = int(ship.rect.height) / 2
-            ship.rect.x = 10 + ship_number * ship.rect.width
-            ship.rect.y = 10 
-            self.ships.add(ship)
+        # self.ships = pygame.sprite.Group()
+        # for ship_number in range(self.stats.ships_left):
+        #     ship = Ship(self.ai_game)
+        #     # ship.rect.width = int(ship.rect.width) / 2
+        #     # ship.rect.height = int(ship.rect.height) / 2
+        #     ship.rect.x = 10 + ship_number * ship.rect.width
+        #     ship.rect.y = 10 
+        #     self.ships.add(ship)
+        ship = f"Lives : {self.stats.ships_left}"
+        self.ships_image = self.font.render(ship,True,self.text_color,self.settings.bg_color)
+        self.ships_rect = self.ships_image.get_rect()
+        self.ships_rect.topleft = self.screen_rect.topleft
+        
             
     def show_score(self):
         """Draw score to the screen."""
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image,self.high_score_rect)
         self.screen.blit(self.level_image,self.level_rect)
-        self.ships.draw(self.screen)
+        self.screen.blit(self.ships_image,self.ships_rect)
         
     def check_high_score(self):
         """Check to see if there is a new high score"""
